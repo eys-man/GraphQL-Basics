@@ -18,6 +18,7 @@ import { memberTypeId, MemberType } from '../member-types/member-type.js';
 import { ChangeProfileInputType, CreateProfileInputType, ProfileType } from '../profiles/profile-type.js';
 import { ChangePostInputType, CreatePostInputType, PostType } from '../posts/post-type.js';
 import { MemberTypeId } from '../member-types/schemas.js';
+import depthLimit from 'graphql-depth-limit';
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -276,9 +277,9 @@ const plugin: FastifyPluginAsyncTypebox = async (fastify) => {
       },
     },
     async handler({ body: { query, variables } }) {
-      const validateErrors = validate(schema, parse(query));
+      const validateErrors = validate(schema, parse(query), [depthLimit(5)]);
       if (validateErrors.length > 0) {
-        return {errors: validateErrors};
+        return {data: null, errors: validateErrors};
       }
 
       return await graphql({

@@ -11,14 +11,17 @@ export interface Post {
   id: string;
   title: string;
   content: string;
+  authorId: string;
 };
 
 export type User = {
   id: UUID;
   name: string;
   balance: number;
-  userSubscribedTo?: Subscription[];
-  subscribedToUser?: Subscription[];
+  posts: Post[];
+  profile: Profile;
+  userSubscribedTo: Subscription[];
+  subscribedToUser: Subscription[];
 };
 
 export type Profile = {
@@ -31,4 +34,5 @@ export type Profile = {
 
 export type Subscription = {
   subscriberId: UUID;
+  authorId: UUID;
 };

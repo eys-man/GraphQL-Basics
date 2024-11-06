@@ -1,5 +1,6 @@
 import {
   GraphQLFloat,
+  GraphQLInputObjectType,
   GraphQLList,
   GraphQLObjectType,
   GraphQLString
@@ -14,6 +15,7 @@ export const UserType: GraphQLObjectType<User, FastifyInstance> = new GraphQLObj
   name: 'User',
   fields: () => ({
     id: { type: UUIDType },
+    userId: { type: UUIDType },
     name: { type: GraphQLString },
     balance: { type: GraphQLFloat },
     profile: {
@@ -44,5 +46,21 @@ export const UserType: GraphQLObjectType<User, FastifyInstance> = new GraphQLObj
         });
       },
     },
+  }),
+});
+
+export const CreateUserInputType = new GraphQLInputObjectType({
+  name: 'CreateUserInput',
+  fields: {
+    name: { type: GraphQLString },
+    balance: { type: GraphQLFloat },
+  },
+});
+
+export const ChangeUserInputType = new GraphQLInputObjectType({
+  name: 'ChangeUserInput',
+  fields: () => ({
+    name: { type: GraphQLString },
+    balance: { type: GraphQLFloat },
   }),
 });
